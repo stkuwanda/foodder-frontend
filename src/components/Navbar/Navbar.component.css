@@ -17,35 +17,20 @@ nav .logo {
   font-size: 18px;
 }
 
-nav li {
+.navbar-menu li {
   cursor: pointer;
+}
+
+.navbar-menu .active {
+  /* padding-bottom: 2px; */
+  /* border-bottom: 2px solid #49557e; */
+  color: tomato;
 }
 
 .navbar-right {
   display: flex;
   align-items: center;
   gap: 40px;
-}
-
-nav button {
-  background: transparent;
-  font-size: 16px;
-  color: #49557e;
-  border: 1px solid tomato;
-  padding: 10px 30px;
-  border-radius: 50px;
-  cursor: pointer;
-  transition: 0.4s;
-}
-
-nav button:hover {
-  background-color: #fff4f2;
-}
-
-nav .active {
-  /* padding-bottom: 2px; */
-  /* border-bottom: 2px solid #49557e; */
-  color: tomato;
 }
 
 .navbar-search-icon {
@@ -61,3 +46,18 @@ nav .active {
   top: -8px;
   right: -8px
 } 
+
+.navbar-right button {
+  background: transparent;
+  font-size: 16px;
+  color: #49557e;
+  border: 1px solid tomato;
+  padding: 10px 30px;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: 0.4s;
+}
+
+.navbar-right button:hover {
+  background-color: #fff4f2;
+}
