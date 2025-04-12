@@ -1,9 +1,11 @@
-import React from 'react';
+import Navbar from './components/Navbar/Navbar.component';
+import './App.css';
 
 function App() {
   return (
-    <div>
-      Foodder App
+    <div className='app'>
+      <Navbar />
+
     </div>
   )
 }
