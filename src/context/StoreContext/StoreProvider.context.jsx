@@ -6,6 +6,10 @@ import { food_list } from '../../assets/assets';
 function StoreProvider({ children }) {
   const [cartItems, setCartItems] = useState({});
 
+  // useEffect(() => {
+  //   console.log(cartItems);
+  // }, [cartItems]);
+
   // adds item count on cart
   function addToCart(itemId) {
 		if (!cartItems[itemId]) {

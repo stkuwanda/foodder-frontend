@@ -9,8 +9,11 @@ function FoodDisplay({ category }) {
       <h2>Top dishes near you</h2>
       <div className="food-display-list">
         {food_list.map(item => {
-          const { _id, category: _, ...rest } = item;
-          return <FoodItem key={item._id} id={_id} {...rest} />
+          const { _id, category: itemCategory, ...rest } = item;
+
+          if (category === 'All' || itemCategory === category) {
+						return <FoodItem key={item._id} id={_id} {...rest} />;
+					}
         })}
       </div>
     </section>
