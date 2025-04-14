@@ -4,17 +4,21 @@ import Home from './pages/Home/Home.page';
 import Cart from './pages/Cart/Cart.page';
 import PlaceOrder from './pages/PlaceOrder/PlaceOrder.page';
 import './App.css';
+import Footer from './components/Footer/Footer.component';
 
 function App() {
 	return (
-		<div className='app'>
-			<Navbar />
-			<Routes>
-				<Route path='/' element={<Home />} />
-				<Route path='/cart' element={<Cart />} />
-				<Route path='/order' element={<PlaceOrder />} />
-			</Routes>
-		</div>
+		<>
+			<div className='app'>
+				<Navbar />
+				<Routes>
+					<Route path='/' element={<Home />} />
+					<Route path='/cart' element={<Cart />} />
+					<Route path='/order' element={<PlaceOrder />} />
+				</Routes>
+			</div>
+			<Footer />
+		</>
 	);
 }
 
