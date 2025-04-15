@@ -8,10 +8,7 @@ function Footer() {
 				<div className='footer-content-right'>
 					<img src={assets.logo} alt='' />
 					<p>
-						Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt
-						quos vero, recusandae minus, velit voluptatibus deleniti magni quae,
-						ea in ab non. Itaque iusto eaque voluptate? Alias cum dolorem
-						quaerat.
+          Fresh Food, Fast Delivery! Enjoy the tastes you love, brought straight to your door with speed and care. Whether it is a snack or a feast, we deliver fresh meals, hassle-free. Order now and turn every bite into a moment to savor!
 					</p>
 					<div className='footer-social-icons'>
             <img src={assets.facebook_icon} alt="" />
