@@ -10,11 +10,12 @@ import './App.css';
 
 function App() {
 	const [showLogin, setShowLogin] = useState(false);
+	const [selected, setSelected] = useState('home');
 
 	return (
 		<>
 		{showLogin ? <LoginPopup setShowLogin={setShowLogin} /> : undefined }
-			<Navbar setShowLogin={setShowLogin} />
+			<Navbar setShowLogin={setShowLogin} selected={selected} setSelected={setSelected} />
 			<div className='app'>
 				<Routes>
 					<Route path='/' element={<Home />} />
