@@ -7,7 +7,8 @@ section.explore-menu {
 
 section.explore-menu h2 {
 	color: #262626;
-	font-weight: 500;
+	font-size: max(2vw, 24px);
+  font-weight: 600;
 }
 
 .explore-menu-text {
