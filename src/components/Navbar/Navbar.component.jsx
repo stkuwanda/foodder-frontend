@@ -8,17 +8,17 @@ function Navbar({ setShowLogin }) {
   const [selected, setSelected] = useState('home');
 	return (
 		<nav>
-			<img src={assets.logo} alt='brand logo image' className='logo' />
+			<Link to='/'><img src={assets.logo} alt='brand logo image' className='logo' /></Link>
 			<ul className='navbar-menu'>
         <Link to='/' onClick={() => setSelected('home')} className={selected === 'home' ? 'active' : undefined}>home</Link>
-        <a href='#explore-menu' onClick={() => setSelected('menu')} className={selected === 'menu' ? 'active' : undefined}>menu</a>
-        <a href='#app-download' onClick={() => setSelected('mobile-app')} className={selected === 'mobile-app' ? 'active' : undefined}>mobile app</a>
-        <a href='#footer' onClick={() => setSelected('contacts')} className={selected === 'contacts' ? 'active' : undefined}>contacts</a>
+        <Link to='/#explore-menu' onClick={() => setSelected('menu')} className={selected === 'menu' ? 'active' : undefined}>menu</Link>
+        <Link to='/#app-download' onClick={() => setSelected('mobile-app')} className={selected === 'mobile-app' ? 'active' : undefined}>mobile app</Link>
+        <Link to='/#footer' onClick={() => setSelected('contacts')} className={selected === 'contacts' ? 'active' : undefined}>contacts</Link>
       </ul>
       <div className="navbar-right">
         <img src={assets.search_icon} alt="search icon" />
         <div className="navbar-search-icon">
-          <img src={assets.basket_icon} alt="basket icon" />
+          <Link to='/cart'><img src={assets.basket_icon} alt="basket icon" /></Link>
           <div className="dot"></div>
         </div>
         <button onClick={() => setShowLogin(true)}>sign in</button>
