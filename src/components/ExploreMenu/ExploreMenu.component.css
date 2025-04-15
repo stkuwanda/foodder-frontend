@@ -1,4 +1,5 @@
 section.explore-menu {
+	padding-top: 70px;
 	display: flex;
 	flex-direction: column;
 	gap: 20px;
