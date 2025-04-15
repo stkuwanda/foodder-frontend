@@ -34,6 +34,37 @@ function Cart() {
 						)
 				)}
 			</section>
+      <section className="cart-bottom">
+        <div className="cart-total">
+          <h2>Cart Totals</h2>
+          <div>
+            <div className="cart-total-details">
+              <p>Subtotal</p>
+              <p>{0}</p>
+            </div>
+            <hr />
+            <div className="cart-total-details">
+              <p>Delivery fee</p>
+              <p>{2}</p>
+            </div>
+            <hr />
+            <div className="cart-total-details">
+              <b>Total</b>
+              <b>{0}</b>
+            </div>
+          </div>
+          <button>Proceed to checkout</button>
+        </div>
+        <div className="cart-promo-code">
+          <div>
+            <p>If you have a promo code, enter it here.</p>
+            <div className="cart-promo-code-input">
+              <input type="text" placeholder='Enter promo code' />
+              <button>Submit</button>
+            </div>
+          </div>
+        </div>
+      </section>
 		</main>
 	);
 }
