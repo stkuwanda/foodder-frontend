@@ -1,5 +1,5 @@
 nav {
-  padding: 20px 0px;
+  padding: 8px 10vw 5px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -90,6 +90,10 @@ nav .logo {
 }
 
 @media (max-width: 900px) {
+  nav {
+    padding-top: 20px;
+  }
+  
   nav .logo {
     width: 120px;
   }

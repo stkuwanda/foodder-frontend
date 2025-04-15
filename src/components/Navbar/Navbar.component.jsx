@@ -4,7 +4,7 @@ import { assets } from '../../assets/assets';
 import './Navbar.component.css';
 
 
-function Navbar() {
+function Navbar({ setShowLogin }) {
   const [selected, setSelected] = useState('home');
 	return (
 		<nav>
@@ -21,7 +21,7 @@ function Navbar() {
           <img src={assets.basket_icon} alt="basket icon" />
           <div className="dot"></div>
         </div>
-        <button>sign in</button>
+        <button onClick={() => setShowLogin(true)}>sign in</button>
       </div>
 		</nav>
 	);
