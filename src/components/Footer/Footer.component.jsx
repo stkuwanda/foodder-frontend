@@ -5,7 +5,7 @@ function Footer() {
   return (
 		<footer id='footer'>
 			<div className='footer-content'>
-				<div className='footer-content-right'>
+				<div className='footer-content-left'>
 					<img src={assets.logo} alt='' />
 					<p>
           Fresh Food, Fast Delivery! Enjoy the tastes you love, brought straight to your door with speed and care. Whether it is a snack or a feast, we deliver fresh meals, hassle-free. Order now and turn every bite into a moment to savor!
@@ -25,7 +25,7 @@ function Footer() {
             <li>Privacy Policy</li>
           </ul>
         </div>
-				<div className='footer-content-left'>
+				<div className='footer-content-right'>
           <h2>Get In Touch</h2>
           <ul>
             <li>+263 779 550 103</li>
