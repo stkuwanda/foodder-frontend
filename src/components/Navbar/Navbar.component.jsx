@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { assets } from '../../assets/assets';
 import './Navbar.component.css';
+
 
 function Navbar() {
   const [selected, setSelected] = useState('home');
@@ -8,10 +10,10 @@ function Navbar() {
 		<nav>
 			<img src={assets.logo} alt='brand logo image' className='logo' />
 			<ul className='navbar-menu'>
-        <li onClick={() => setSelected('home')} className={selected === 'home' ? 'active' : undefined}>home</li>
-        <li onClick={() => setSelected('menu')} className={selected === 'menu' ? 'active' : undefined}>menu</li>
-        <li onClick={() => setSelected('mobile-app')} className={selected === 'mobile-app' ? 'active' : undefined}>mobile app</li>
-        <li onClick={() => setSelected('contacts')} className={selected === 'contacts' ? 'active' : undefined}>contacts</li>
+        <Link to='/' onClick={() => setSelected('home')} className={selected === 'home' ? 'active' : undefined}>home</Link>
+        <a href='#explore-menu' onClick={() => setSelected('menu')} className={selected === 'menu' ? 'active' : undefined}>menu</a>
+        <a href='#app-download' onClick={() => setSelected('mobile-app')} className={selected === 'mobile-app' ? 'active' : undefined}>mobile app</a>
+        <a href='#footer' onClick={() => setSelected('contacts')} className={selected === 'contacts' ? 'active' : undefined}>contacts</a>
       </ul>
       <div className="navbar-right">
         <img src={assets.search_icon} alt="search icon" />
