@@ -21,7 +21,7 @@ header {
 .header-content h1 {
 	font-weight: 500;
 	color: white;
-	font-size: max(2.5vw, 18px);
+	font-size:  max(4.5vw, 22px); /* font-size:  max(2.5vw, 18px); */
 }
 
 .header-content p {
@@ -37,4 +37,28 @@ header {
   font-size: max(1vw, 13px);
   padding: 1vw 2.3vw;
   border-radius: 50px;
+}
+
+@media (max-width: 1050px) {
+	.header-content {
+		max-width: 45%;
+	}
+}
+
+@media (max-width: 750px) {
+	.header-content {
+		max-width: 65%;
+	}
+
+	.header-content h1 {
+		font-size: 5vw;
+	}
+
+	.header-content p {
+		display: none;
+	}
+
+	.header-content button {
+		padding: 2vw 4vw;
+	}
 }
