@@ -24,7 +24,21 @@ function StoreProvider({ children }) {
 		setCartItems((prev) => ({ ...prev, [itemId]: --prev[itemId] }));
 	}
 
-	const contextValue = { food_list, cartItems, setCartItems, addToCart, removeFromCart };
+  // calculates total amount in cart
+  function getTotalCartAmount() {
+    let totalAmount = 0;
+
+    for (const idKey in cartItems) {
+      if (cartItems[idKey] > 0) {
+				let product = food_list.find((product) => product._id === idKey);
+				totalAmount += product.price * cartItems[idKey];
+			}
+    }
+
+    return totalAmount;
+  }
+
+	const contextValue = { food_list, cartItems, setCartItems, addToCart, removeFromCart, getTotalCartAmount };
 
   return (
     <StoreContext.Provider value={contextValue}>
