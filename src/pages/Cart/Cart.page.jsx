@@ -1,8 +1,11 @@
+import { useNavigate } from 'react-router-dom';
 import { useStoreContext } from '../../context/StoreContext/StoreContext.tools';
 import './Cart.page.css';
 
 function Cart() {
 	const { cartItems, food_list, removeFromCart, getTotalCartAmount } = useStoreContext();
+
+	const navigate = useNavigate();
 
 	return (
 		<main className='cart'>
@@ -53,13 +56,13 @@ function Cart() {
               <b>${getTotalCartAmount() + 2}</b>
             </div>
           </div>
-          <button>Proceed to checkout</button>
+          <button onClick={() => navigate('/order')} disabled={getTotalCartAmount() === 0}>Proceed to checkout</button>
         </div>
         <div className="cart-promo-code">
           <div>
             <p>If you have a promo code, enter it here.</p>
             <div className="cart-promo-code-input">
-              <input type="text" placeholder='Enter promo code' />
+              <input type="text" placeholder='Enter promo code' disabled={getTotalCartAmount() === 0} />
               <button>Submit</button>
             </div>
           </div>

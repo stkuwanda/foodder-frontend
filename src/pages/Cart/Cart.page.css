@@ -57,6 +57,17 @@ section.cart-bottom {
   cursor: pointer;
 }
 
+.cart-total button:disabled {
+  border: none;
+  color: white;
+  background-color: #e2e2e2;
+  width: max(15vw, 200px);
+  padding: 12px 0px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+
 .cart-total-details {
   display: flex;
   justify-content: space-between;
