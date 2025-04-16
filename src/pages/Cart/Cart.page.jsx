@@ -4,7 +4,8 @@ import { useStoreContext } from '../../context/StoreContext/StoreContext.tools';
 import './Cart.page.css';
 
 function Cart() {
-	const { cartItems, food_list, removeFromCart, getTotalCartAmount } = useStoreContext();
+	const { cartItems, food_list, removeFromCart, getTotalCartAmount } =
+		useStoreContext();
 	const navigate = useNavigate();
 
 	const cartListRef = useRef(null); // Create a ref for the container
@@ -23,10 +24,9 @@ function Cart() {
 		}
 	};
 
-
 	return (
 		<main className='cart'>
-			<section ref={cartListRef} >
+			<section ref={cartListRef}>
 				<div className='cart-items-title'>
 					<p>Items</p>
 					<p>Title</p>
@@ -37,56 +37,70 @@ function Cart() {
 				</div>
 				<br />
 				<hr />
-				<div className="cart-items-container">
-				{food_list.map(
-					(item) =>
-						cartItems[item._id] > 0 && (
-							<div className='cart-item-container'>
-								<div className='cart-items-title cart-item'>
-									<img src={item.image} alt={`Image of ${item.name}`} />
-									<p>{item.name}</p>
-									<p>${item.price}</p>
-									<p>{cartItems[item._id]}</p>
-									<p>${item.price * cartItems[item._id]}</p>
-									<p className='cross' onClick={() => handleRemoveItem(item._id)}>x</p>
+				<div className='cart-items-container'>
+					{food_list.map(
+						(item) =>
+							cartItems[item._id] > 0 && (
+								<div className='cart-item-container'>
+									<div className='cart-items-title cart-item'>
+										<img src={item.image} alt={`Image of ${item.name}`} />
+										<p>{item.name}</p>
+										<p>${item.price}</p>
+										<p>{cartItems[item._id]}</p>
+										<p>${item.price * cartItems[item._id]}</p>
+										<p
+											className='cross'
+											onClick={() => handleRemoveItem(item._id)}
+										>
+											x
+										</p>
+									</div>
+									<hr />
 								</div>
-								<hr />
-							</div>
-						)
-				)}
+							)
+					)}
 				</div>
 			</section>
-      <section className="cart-bottom">
-        <div className="cart-total">
-          <h2>Cart Totals</h2>
-          <div>
-            <div className="cart-total-details">
-              <p>Subtotal</p>
-              <p>${getTotalCartAmount()}</p>
-            </div>
-            <hr />
-            <div className="cart-total-details">
-              <p>Delivery fee</p>
-              <p>${2}</p>
-            </div>
-            <hr />
-            <div className="cart-total-details">
-              <b>Total</b>
-              <b>${getTotalCartAmount() + 2}</b>
-            </div>
-          </div>
-          <button onClick={() => navigate('/order')} disabled={getTotalCartAmount() === 0}>Proceed to checkout</button>
-        </div>
-        <div className="cart-promo-code">
-          <div>
-            <p>If you have a promo code, enter it here.</p>
-            <div className="cart-promo-code-input">
-              <input type="text" placeholder='Enter promo code' disabled={getTotalCartAmount() === 0} />
-              <button disabled={getTotalCartAmount() === 0}>Submit</button>
-            </div>
-          </div>
-        </div>
-      </section>
+			<section className='cart-bottom'>
+				<div className='cart-total'>
+					<h2>Cart Totals</h2>
+					<div>
+						<div className='cart-total-details'>
+							<p>Subtotal</p>
+							<p>${getTotalCartAmount()}</p>
+						</div>
+						<hr />
+						<div className='cart-total-details'>
+							<p>Delivery fee</p>
+							<p>${getTotalCartAmount() === 0 ? 0 : 2}</p>
+						</div>
+						<hr />
+						<div className='cart-total-details'>
+							<b>Total</b>
+							<b>${getTotalCartAmount() === 0 ? 0 : getTotalCartAmount() + 2}</b>
+						</div>
+					</div>
+					<button
+						onClick={() => navigate('/order')}
+						disabled={getTotalCartAmount() === 0}
+					>
+						Proceed to checkout
+					</button>
+				</div>
+				<div className='cart-promo-code'>
+					<div>
+						<p>If you have a promo code, enter it here.</p>
+						<div className='cart-promo-code-input'>
+							<input
+								type='text'
+								placeholder='Enter promo code'
+								disabled={getTotalCartAmount() === 0}
+							/>
+							<button disabled={getTotalCartAmount() === 0}>Submit</button>
+						</div>
+					</div>
+				</div>
+			</section>
 		</main>
 	);
 }
