@@ -1,15 +1,32 @@
+import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useStoreContext } from '../../context/StoreContext/StoreContext.tools';
 import './Cart.page.css';
 
 function Cart() {
 	const { cartItems, food_list, removeFromCart, getTotalCartAmount } = useStoreContext();
-
 	const navigate = useNavigate();
+
+	const cartListRef = useRef(null); // Create a ref for the container
+
+	const handleRemoveItem = (itemId) => {
+		if (cartListRef.current) {
+			const scrollTop = cartListRef.current.scrollTop;
+			// ... your logic to update the cart state (remove the item) ...
+			removeFromCart(itemId);
+			// After the state update and re-render, restore the scroll position
+			setTimeout(() => {
+				if (cartListRef.current) {
+					cartListRef.current.scrollTop = scrollTop;
+				}
+			}, 0); // Execute after the re-render
+		}
+	};
+
 
 	return (
 		<main className='cart'>
-			<section className='cart-items'>
+			<section ref={cartListRef} >
 				<div className='cart-items-title'>
 					<p>Items</p>
 					<p>Title</p>
@@ -20,22 +37,24 @@ function Cart() {
 				</div>
 				<br />
 				<hr />
+				<div className="cart-items-container">
 				{food_list.map(
 					(item) =>
 						cartItems[item._id] > 0 && (
-							<div>
+							<div className='cart-item-container'>
 								<div className='cart-items-title cart-item'>
 									<img src={item.image} alt={`Image of ${item.name}`} />
 									<p>{item.name}</p>
 									<p>${item.price}</p>
 									<p>{cartItems[item._id]}</p>
 									<p>${item.price * cartItems[item._id]}</p>
-									<p className='cross' onClick={() => removeFromCart(item._id)}>x</p>
+									<p className='cross' onClick={() => handleRemoveItem(item._id)}>x</p>
 								</div>
 								<hr />
 							</div>
 						)
 				)}
+				</div>
 			</section>
       <section className="cart-bottom">
         <div className="cart-total">
@@ -63,7 +82,7 @@ function Cart() {
             <p>If you have a promo code, enter it here.</p>
             <div className="cart-promo-code-input">
               <input type="text" placeholder='Enter promo code' disabled={getTotalCartAmount() === 0} />
-              <button>Submit</button>
+              <button disabled={getTotalCartAmount() === 0}>Submit</button>
             </div>
           </div>
         </div>

@@ -2,6 +2,11 @@
   margin-top: 100px;
 }
 
+.cart-items-container {
+  overflow-y: auto; 
+  height: 200px;
+}
+
 .cart-items-title {
   display: grid;
   grid-template-columns: 1fr 1.5fr 1fr 1fr 1fr 0.5fr;
@@ -67,7 +72,6 @@ section.cart-bottom {
   cursor: pointer;
 }
 
-
 .cart-total-details {
   display: flex;
   justify-content: space-between;
@@ -102,6 +106,15 @@ section.cart-bottom {
   width: max(10vw,150px);
   padding: 12px 5px;
   background-color: black;
+  border: none;
+  color: white;
+  border-radius: 0 4px 4px 0;
+}
+
+.cart-promo-code-input button:disabled {
+  width: max(10vw,150px);
+  padding: 12px 5px;
+  background-color: #8e8e8e;
   border: none;
   color: white;
   border-radius: 0 4px 4px 0;
