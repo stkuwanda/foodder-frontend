@@ -1,9 +1,12 @@
 import { Link } from 'react-router-dom';
 import { assets } from '../../assets/assets';
 import './Navbar.component.css';
+import { useStoreContext } from '../../context/StoreContext/StoreContext.tools';
 
 
 function Navbar({ setShowLogin, selected, setSelected }) {
+  const { getTotalCartAmount } = useStoreContext();
+
 	return (
 		<nav>
 			<Link to='/'><img src={assets.logo} alt='brand logo image' className='logo' /></Link>
@@ -17,7 +20,7 @@ function Navbar({ setShowLogin, selected, setSelected }) {
         <img src={assets.search_icon} alt="search icon" />
         <div className="navbar-search-icon">
           <Link to='/cart' onClick={() => setSelected('cart')}><img src={assets.basket_icon} alt="basket icon" /></Link>
-          <div className="dot"></div>
+          <div className={getTotalCartAmount() > 0 ? "dot": undefined} ></div>
         </div>
         <button onClick={() => setShowLogin(true)}>sign in</button>
       </div>
