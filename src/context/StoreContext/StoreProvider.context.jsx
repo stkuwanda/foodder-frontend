@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { storeContext as StoreContext } from './StoreContext.tools';
 import { food_list } from '../../assets/assets';
+import { serverUrl } from '../../utils';
 
 
 function StoreProvider({ children }) {
@@ -38,7 +39,7 @@ function StoreProvider({ children }) {
     return totalAmount;
   }
 
-	const contextValue = { food_list, cartItems, setCartItems, addToCart, removeFromCart, getTotalCartAmount };
+	const contextValue = { food_list, cartItems, setCartItems, addToCart, removeFromCart, getTotalCartAmount, serverUrl };
 
   return (
     <StoreContext.Provider value={contextValue}>
