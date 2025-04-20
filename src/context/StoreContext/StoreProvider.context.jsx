@@ -1,18 +1,34 @@
 import { useState, useEffect } from 'react';
 import { storeContext as StoreContext } from './StoreContext.tools';
-import { food_list } from '../../assets/assets';
 import { serverUrl } from '../../utils';
+import axios from 'axios';
 
 
 function StoreProvider({ children }) {
   const [cartItems, setCartItems] = useState({});
   const [token, setToken] = useState('');
+  const [foodList, setFoodList] = useState([])
 
   useEffect(() => {
-    if(localStorage.getItem('token')) {
-      setToken(localStorage.getItem('token'))
+    async function loadData() {
+      await fetchFoodList();
+
+      if(localStorage.getItem('token')) {
+        setToken(localStorage.getItem('token'))
+      }
     }
+
+    loadData();
   }, []);
+
+  async function fetchFoodList() {
+    const response = await axios.get(`${serverUrl}/api/food/list`);
+    if(response.data.success) {
+      setFoodList(response.data.data);
+    } else {
+      alert(response.data.message);
+    }
+  }
 
   // adds item count on cart
   function addToCart(itemId) {
@@ -34,7 +50,7 @@ function StoreProvider({ children }) {
 
     for (const idKey in cartItems) {
       if (cartItems[idKey] > 0) {
-				let product = food_list.find((product) => product._id === idKey);
+				let product = foodList.find((product) => product._id === idKey);
 				totalAmount += product.price * cartItems[idKey];
 			}
     }
@@ -42,7 +58,7 @@ function StoreProvider({ children }) {
     return totalAmount;
   }
 
-	const contextValue = { food_list, cartItems, setCartItems, addToCart, removeFromCart, getTotalCartAmount, serverUrl, token, setToken };
+	const contextValue = { foodList, cartItems, setCartItems, addToCart, removeFromCart, getTotalCartAmount, serverUrl, token, setToken };
 
   return (
     <StoreContext.Provider value={contextValue}>

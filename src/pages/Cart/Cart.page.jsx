@@ -4,7 +4,7 @@ import { useStoreContext } from '../../context/StoreContext/StoreContext.tools';
 import './Cart.page.css';
 
 function Cart() {
-	const { cartItems, food_list, removeFromCart, getTotalCartAmount } =
+	const { cartItems, foodList, removeFromCart, getTotalCartAmount, serverUrl } =
 		useStoreContext();
 	const navigate = useNavigate();
 
@@ -38,12 +38,12 @@ function Cart() {
 				<br />
 				<hr />
 				<div className='cart-items-container'>
-					{food_list.map(
+					{foodList.map(
 						(item) =>
 							cartItems[item._id] > 0 && (
 								<div className='cart-item-container'>
 									<div className='cart-items-title cart-item'>
-										<img src={item.image} alt={`Image of ${item.name}`} />
+										<img src={`${serverUrl}/images/${item.image}`} alt={`Image of ${item.name}`} />
 										<p>{item.name}</p>
 										<p>${item.price}</p>
 										<p>{cartItems[item._id]}</p>

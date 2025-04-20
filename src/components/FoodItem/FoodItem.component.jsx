@@ -4,13 +4,13 @@ import './FoodItem.component.css';
 
 
 function FoodItem({ id, name, price, description, image }) {
-	const { cartItems, addToCart, removeFromCart } = useStoreContext();
+	const { cartItems, addToCart, removeFromCart, serverUrl } = useStoreContext();
 
 	return (
 		<div className='food-item'>
 			<div className='food-item-img-container'>
 				<img
-					src={image}
+					src={`${serverUrl}/images/${image}`}
 					alt={`Image of ${name}.`}
 					className='food-item-image'
 				/>
