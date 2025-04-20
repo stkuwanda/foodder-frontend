@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { storeContext as StoreContext } from './StoreContext.tools';
 import { food_list } from '../../assets/assets';
 import { serverUrl } from '../../utils';
@@ -8,9 +8,11 @@ function StoreProvider({ children }) {
   const [cartItems, setCartItems] = useState({});
   const [token, setToken] = useState('');
 
-  // useEffect(() => {
-  //   console.log(cartItems);
-  // }, [cartItems]);
+  useEffect(() => {
+    if(localStorage.getItem('token')) {
+      setToken(localStorage.getItem('token'))
+    }
+  }, []);
 
   // adds item count on cart
   function addToCart(itemId) {
