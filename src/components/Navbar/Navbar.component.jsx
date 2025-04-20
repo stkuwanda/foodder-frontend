@@ -1,20 +1,37 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { assets } from '../../assets/assets';
 import { useStoreContext } from '../../context/StoreContext/StoreContext.tools';
 import './Navbar.component.css';
 
 function Navbar({ setShowLogin, selected, setSelected }) {
 	const { getTotalCartAmount, token, setToken } = useStoreContext();
+	const navigate = useNavigate();
+
+	function onLogOutHandler() {
+		localStorage.removeItem('token');
+		setToken('');
+		navigate('/');
+		window.scrollTo(0, 0);
+	}
 
 	return (
 		<nav>
-			<Link to='/'>
+			<Link
+				to='/'
+				onClick={() => {
+					setSelected('home');
+					window.scrollTo(0, 0);
+				}}
+			>
 				<img src={assets.logo} alt='brand logo image' className='logo' />
 			</Link>
 			<ul className='navbar-menu'>
 				<Link
 					to='/'
-					onClick={() => setSelected('home')}
+					onClick={() => {
+						setSelected('home');
+						window.scrollTo(0, 0);
+					}}
 					className={selected === 'home' ? 'active' : undefined}
 				>
 					home
@@ -26,13 +43,13 @@ function Navbar({ setShowLogin, selected, setSelected }) {
 				>
 					menu
 				</Link>
-				<Link
+				{/* <Link
 					to='/#app-download'
 					onClick={() => setSelected('mobile-app')}
 					className={selected === 'mobile-app' ? 'active' : undefined}
 				>
 					mobile app
-				</Link>
+				</Link> */}
 				<Link
 					to='/#footer'
 					onClick={() => setSelected('contacts')}
@@ -60,7 +77,7 @@ function Navbar({ setShowLogin, selected, setSelected }) {
 								<p>Orders</p>
 							</li>
 							<hr />
-							<li>
+							<li onClick={onLogOutHandler}>
 								<img src={assets.logout_icon} alt='Image of a logout icon' />
 								<p>Logout</p>
 							</li>
