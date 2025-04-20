@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { assets } from '../../assets/assets';
-import './Navbar.component.css';
 import { useStoreContext } from '../../context/StoreContext/StoreContext.tools';
+import './Navbar.component.css';
 
 
 function Navbar({ setShowLogin, selected, setSelected }) {
