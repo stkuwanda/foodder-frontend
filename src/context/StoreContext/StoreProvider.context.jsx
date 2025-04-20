@@ -6,6 +6,7 @@ import { serverUrl } from '../../utils';
 
 function StoreProvider({ children }) {
   const [cartItems, setCartItems] = useState({});
+  const [token, setToken] = useState('');
 
   // useEffect(() => {
   //   console.log(cartItems);
@@ -39,7 +40,7 @@ function StoreProvider({ children }) {
     return totalAmount;
   }
 
-	const contextValue = { food_list, cartItems, setCartItems, addToCart, removeFromCart, getTotalCartAmount, serverUrl };
+	const contextValue = { food_list, cartItems, setCartItems, addToCart, removeFromCart, getTotalCartAmount, serverUrl, token, setToken };
 
   return (
     <StoreContext.Provider value={contextValue}>

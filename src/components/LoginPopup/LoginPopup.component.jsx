@@ -1,6 +1,9 @@
 import { useState } from 'react';
+import axios from 'axios';
 import { assets } from '../../assets/assets';
+import { useStoreContext } from '../../context/StoreContext/StoreContext.tools';
 import './LoginPopup.component.css';
+
 
 function LoginPopup({ setShowLogin }) {
 	const [currState, setCurrentState] = useState('Login');
@@ -10,6 +13,8 @@ function LoginPopup({ setShowLogin }) {
 		password: '',
 	});
 
+	const { serverUrl, setToken } = useStoreContext();
+
 	function onChangeHandler(event) {
 		const name = event.target.name;
 		const value = event.target.value;
@@ -17,9 +22,31 @@ function LoginPopup({ setShowLogin }) {
 		setUserData((prev) => ({ ...prev, [name]: value }));
 	}
 
+	async function onSubmitHandler(event) {
+		event.preventDefault();
+
+		let url = serverUrl;
+
+		if(currState === 'Login') {
+			url += '/api/user/login';
+		} else {
+			url += '/api/user/register';
+		}
+
+		const response = await axios.post(url, userData);
+
+		if(response.data.success) {
+			setToken(response.data.token);
+			localStorage.setItem('token', response.data.token);
+			setShowLogin(false);
+		} else {
+			alert(response.data.message);
+		}
+	}
+
 	return (
 		<div className='login-popup'>
-			<form className='login-popup-container'>
+			<form onSubmit={onSubmitHandler} className='login-popup-container'>
 				<div className='login-popup-title'>
 					<h2>{currState}</h2>
 					<img
@@ -56,7 +83,7 @@ function LoginPopup({ setShowLogin }) {
 						required
 					/>
 				</div>
-				<button>{currState === 'Sign Up' ? 'Sign Up' : 'Login'}</button>
+				<button type='submit'>{currState === 'Sign Up' ? 'Sign Up' : 'Login'}</button>
 				<div className='login-popup-condition'>
 					<input type='checkbox' required />
 					<p>By continuing, I agree to the terms of use and privacy policy</p>
