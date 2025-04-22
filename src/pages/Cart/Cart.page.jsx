@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useStoreContext } from '../../context/StoreContext/StoreContext.tools';
 import './Cart.page.css';
@@ -9,6 +9,10 @@ function Cart() {
 	const navigate = useNavigate();
 
 	const cartListRef = useRef(null); // Create a ref for the container
+
+	useEffect(() => {
+		window.scrollTo(0, 0);
+	}, []);
 
 	const handleRemoveItem = (itemId) => {
 		if (cartListRef.current) {

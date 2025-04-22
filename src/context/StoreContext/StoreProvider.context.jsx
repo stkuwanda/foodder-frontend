@@ -7,14 +7,14 @@ import axios from 'axios';
 function StoreProvider({ children }) {
   const [cartItems, setCartItems] = useState({});
   const [token, setToken] = useState('');
-  const [foodList, setFoodList] = useState([])
+  const [foodList, setFoodList] = useState([]);
 
   useEffect(() => {
     async function loadData() {
       await fetchFoodList();
 
       if(localStorage.getItem('token')) {
-        setToken(localStorage.getItem('token'))
+        setToken(localStorage.getItem('token'));
       }
     }
 
@@ -31,12 +31,17 @@ function StoreProvider({ children }) {
   }
 
   // adds item count on cart
-  function addToCart(itemId) {
+  async function addToCart(itemId) {
 		if (!cartItems[itemId]) {
 			setCartItems((prev) => ({ ...prev, [itemId]: 1 }));
 		} else {
 			setCartItems((prev) => ({ ...prev, [itemId]: ++prev[itemId] }));
 		}
+
+    // reflect in backend
+    if(token) {
+      await axios.post(`${serverUrl}/api/cart/add`, { itemId }, { headers: { token }});
+    }
 	}
 
 	// subtracts item count on cart
