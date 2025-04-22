@@ -15,6 +15,7 @@ function StoreProvider({ children }) {
 
       if(localStorage.getItem('token')) {
         setToken(localStorage.getItem('token'));
+        loadCartData(localStorage.getItem('token'));
       }
     }
 
@@ -28,6 +29,12 @@ function StoreProvider({ children }) {
     } else {
       alert(response.data.message);
     }
+  }
+
+  // loads cart data from backend api
+  async function loadCartData(token) {
+    const response = await axios.get(`${serverUrl}/api/cart/retrieve`, { headers: { token } });
+    setCartItems(response.data.cartData);
   }
 
   // adds item count on cart
@@ -45,8 +52,13 @@ function StoreProvider({ children }) {
 	}
 
 	// subtracts item count on cart
-	function removeFromCart(itemId) {
+	async function removeFromCart(itemId) {
 		setCartItems((prev) => ({ ...prev, [itemId]: --prev[itemId] }));
+
+    // reflect in backend
+    if(token) {
+      await axios.delete(`${serverUrl}/api/cart/remove`, { headers: { token }, data: { itemId } });
+    }
 	}
 
   // calculates total amount in cart
