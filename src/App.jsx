@@ -7,7 +7,9 @@ import PlaceOrder from './pages/PlaceOrder/PlaceOrder.page';
 import Footer from './components/Footer/Footer.component';
 import LoginPopup from './components/LoginPopup/LoginPopup.component';
 import NotFound from './pages/NotFound/NotFound.page';
+import PaymentVerification from './pages/PaymentVerification/PaymentVerification.page';
 import './App.css';
+
 
 
 function App() {
@@ -40,6 +42,7 @@ function App() {
 					<Route path='/' element={<Home />} />
 					<Route path='/cart' element={<Cart />} />
 					<Route path='/order' element={<PlaceOrder />} />
+					<Route path='/verify' element={<PaymentVerification />} />
 					<Route path='*' element={<NotFound />}/>
 				</Routes>
 			</div>

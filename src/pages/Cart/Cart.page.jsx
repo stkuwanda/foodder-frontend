@@ -45,7 +45,7 @@ function Cart() {
 					{foodList.map(
 						(item) =>
 							cartItems[item._id] > 0 && (
-								<div className='cart-item-container'>
+								<div key={item._id} className='cart-item-container'>
 									<div className='cart-items-title cart-item'>
 										<img src={`${serverUrl}/images/${item.image}`} alt={`Image of ${item.name}`} />
 										<p>{item.name}</p>
