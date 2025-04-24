@@ -1,28 +1,141 @@
+import { useState } from 'react';
 import { useStoreContext } from '../../context/StoreContext/StoreContext.tools';
 import './PlaceOrder.page.css';
+import axios from 'axios';
 
 function PlaceOrder() {
-	const { getTotalCartAmount } = useStoreContext();
+	const [orderData, setOrderData] = useState({
+		firstName: '',
+		lastName: '',
+		email: '',
+		street: '',
+		city: '',
+		state: '',
+		province: '',
+		zipCode: '',
+		country: '',
+		phone: '',
+	});
+
+	const { getTotalCartAmount, token, foodList, cartItems, serverUrl } =
+		useStoreContext();
+
+	function onChangeHandler(event) {
+		const name = event.target.name;
+		const value = event.target.value;
+
+		setOrderData((prev) => ({ ...prev, [name]: value }));
+	}
+
+	async function onPlaceOrderHandler(event) {
+		event.preventDefault();
+		let orderItems = [];
+
+		for (const item of foodList) {
+			if(cartItems[item._id] > 0) {
+				let itemInfo = structuredClone(item);
+				itemInfo.quantity = cartItems[item._id];
+				orderItems.push(itemInfo);
+			}
+		}
+
+		let order = {
+			address: orderData,
+			items: orderItems,
+			amount: getTotalCartAmount() + 2 // 2 dollars delivery charge
+		};
+
+		let response = await axios.post(`${serverUrl}/api/order/place`, order, { headers: { token } });
+
+		if(response.data.success) {
+			const { sessionUrl } = response.data;
+			window.location.replace(sessionUrl);
+		} else {
+			alert('This operation has failed due to an unspecified error. Try again later.');
+		}
+	}
 
 	return (
-		<form className='place-order'>
+		<form onSubmit={onPlaceOrderHandler} className='place-order'>
 			<div className='place-order-left'>
 				<p className='title'>Delivery information</p>
 				<div className='multi-fields'>
-					<input type='text' placeholder='First name' />
-					<input type='text' placeholder='Last name' />
+					<input 
+						required 
+						type='text'
+						name='firstName'
+						onChange={onChangeHandler}
+						value={orderData.firstName}
+						placeholder='First name'
+					/>
+					<input 
+						required
+						type='text'
+						name='lastName'
+						onChange={onChangeHandler}
+						value={orderData.lastName}
+						placeholder='Last name'
+					/>
 				</div>
-				<input type='email' placeholder='Email address' />
-				<textarea type='text' placeholder='Street Address' rows={3} />
+				<input 
+					required
+					type='email'
+					name='email'
+					onChange={onChangeHandler}
+					value={orderData.email}
+					placeholder='Email address'
+				/>
+				<textarea 
+					required
+					type='text'
+					name='street'
+					onChange={onChangeHandler}
+					value={orderData.street}
+					placeholder='Street Address'
+					rows={3}
+				/>
 				<div className='multi-fields'>
-					<input type='text' placeholder='City' />
-					<input type='text' placeholder='Province' />
+					<input 
+						required
+						type='text'
+						name='city'
+						onChange={onChangeHandler}
+						value={orderData.city}
+						placeholder='City'
+					/>
+					<input
+						type='text'
+						name='province'
+						onChange={onChangeHandler}
+						value={orderData.province}
+						placeholder='Province'
+					/>
 				</div>
 				<div className='multi-fields'>
-					<input type='text' placeholder='Zip Code' />
-					<input type='text' placeholder='Country' />
+					<input
+						type='text'
+						name='zipCode'
+						onChange={onChangeHandler}
+						value={orderData.zipCode}
+						placeholder='Zip Code'
+					/>
+					<input 
+						required
+						type='text'
+						name='country'
+						onChange={onChangeHandler}
+						value={orderData.country}
+						placeholder='Country'
+					/>
 				</div>
-				<input type='text' placeholder='Phone' />
+				<input 
+					required
+					type='tel'
+					name='phone'
+					onChange={onChangeHandler}
+					value={orderData.phone}
+					placeholder='Phone: +263...'
+				/>
 			</div>
 			<div className='place-order-right'>
 				<div className='cart-total'>
@@ -40,10 +153,12 @@ function PlaceOrder() {
 						<hr />
 						<div className='cart-total-details'>
 							<b>Total</b>
-							<b>${getTotalCartAmount() === 0 ? 0 : getTotalCartAmount() + 2}</b>
+							<b>
+								${getTotalCartAmount() === 0 ? 0 : getTotalCartAmount() + 2}
+							</b>
 						</div>
 					</div>
-					<button>Proceed to payment</button>
+					<button type='submit'>Proceed to payment</button>
 				</div>
 			</div>
 		</form>
