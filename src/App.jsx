@@ -9,6 +9,7 @@ import LoginPopup from './components/LoginPopup/LoginPopup.component';
 import NotFound from './pages/NotFound/NotFound.page';
 import PaymentVerification from './pages/PaymentVerification/PaymentVerification.page';
 import './App.css';
+import MyOrders from './pages/MyOrders/MyOrders.page';
 
 
 
@@ -43,6 +44,7 @@ function App() {
 					<Route path='/cart' element={<Cart />} />
 					<Route path='/order' element={<PlaceOrder />} />
 					<Route path='/verify' element={<PaymentVerification />} />
+					<Route path='/myorders' element={<MyOrders />} />
 					<Route path='*' element={<NotFound />}/>
 				</Routes>
 			</div>
