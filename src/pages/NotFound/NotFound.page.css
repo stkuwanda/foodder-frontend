@@ -1,0 +1,10 @@
+
+main.not-found-container section {
+  text-align: center;
+  padding: 20vh 0 20vh;
+}
+
+.not-found-link {
+  color: tomato;
+  text-decoration: underline;
+}

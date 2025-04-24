@@ -6,7 +6,9 @@ import Cart from './pages/Cart/Cart.page';
 import PlaceOrder from './pages/PlaceOrder/PlaceOrder.page';
 import Footer from './components/Footer/Footer.component';
 import LoginPopup from './components/LoginPopup/LoginPopup.component';
+import NotFound from './pages/NotFound/NotFound.page';
 import './App.css';
+
 
 function App() {
 	const [showLogin, setShowLogin] = useState(false);
@@ -38,6 +40,7 @@ function App() {
 					<Route path='/' element={<Home />} />
 					<Route path='/cart' element={<Cart />} />
 					<Route path='/order' element={<PlaceOrder />} />
+					<Route path='*' element={<NotFound />}/>
 				</Routes>
 			</div>
 			<Footer />
