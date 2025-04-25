@@ -2,11 +2,13 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useStoreContext } from '../../context/StoreContext/StoreContext.tools';
 import { assets } from '../../assets/assets';
+import { useNavigate } from 'react-router-dom';
 import './MyOrders.page.css';
 
 function MyOrders() {
 	const [orders, setOrders] = useState([]);
 	const { serverUrl, token } = useStoreContext();
+	const navigate = useNavigate();
 
 	async function fetchOrders() {
 		try {
@@ -17,7 +19,11 @@ function MyOrders() {
 			);
 
 			if (response.data.success) {
-				setOrders(structuredClone(response.data.data));
+				if (response.data.data.length > 0) {
+					setOrders(structuredClone(response.data.data));
+				} else {
+					navigate('/');
+				}
 			} else {
 				alert('Something went wrong! Reattempt.');
 			}
