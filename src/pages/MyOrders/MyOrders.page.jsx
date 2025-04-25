@@ -15,8 +15,6 @@ function MyOrders() {
 			{ headers: { token } }
 		);
 
-		console.log(response.data.data);
-
 		if (response.data.success) {
 			setOrders(structuredClone(response.data.data));
 		} else {

@@ -122,8 +122,17 @@ section.cart-bottom {
 }
 
 @media (max-width: 750px) {
+  main.cart {
+    display: flex;
+    flex-direction: column;
+  }
+
   section.cart-bottom {
     flex-direction: column-reverse;
+  }
+
+  section.cart-bottom  .cart-total h2, .cart-promo-code  p {
+    text-align: center;
   }
 
   .cart-promo-code {
