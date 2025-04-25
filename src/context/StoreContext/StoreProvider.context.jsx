@@ -3,85 +3,120 @@ import { storeContext as StoreContext } from './StoreContext.tools';
 import { serverUrl } from '../../utils';
 import axios from 'axios';
 
-
 function StoreProvider({ children }) {
-  const [cartItems, setCartItems] = useState({});
-  const [token, setToken] = useState('');
-  const [foodList, setFoodList] = useState([]);
+	const [cartItems, setCartItems] = useState({});
+	const [token, setToken] = useState('');
+	const [foodList, setFoodList] = useState([]);
 
-  useEffect(() => {
-    async function loadData() {
-      await fetchFoodList();
+	useEffect(() => {
+		async function loadData() {
+			await fetchFoodList();
 
-      if(localStorage.getItem('token')) {
-        setToken(localStorage.getItem('token'));
-        loadCartData(localStorage.getItem('token'));
-      }
-    }
+			if (localStorage.getItem('token')) {
+				setToken(localStorage.getItem('token'));
+				loadCartData(localStorage.getItem('token'));
+			}
+		}
 
-    loadData();
-  }, []);
+		loadData();
+	}, []);
 
-  async function fetchFoodList() {
-    const response = await axios.get(`${serverUrl}/api/food/list`);
-    if(response.data.success) {
-      setFoodList(response.data.data);
-    } else {
-      alert(response.data.message);
-    }
-  }
+	async function fetchFoodList() {
+		try {
+			const response = await axios.get(`${serverUrl}/api/food/list`);
+			if (response.data.success) {
+				setFoodList(response.data.data);
+			} else {
+				alert(response.data.message);
+			}
+		} catch {
+			alert('Failed to load the menu.');
+		}
+	}
 
-  // loads cart data from backend api
-  async function loadCartData(token) {
-    const response = await axios.get(`${serverUrl}/api/cart/retrieve`, { headers: { token } });
-    setCartItems(response.data.cartData);
-  }
+	// loads cart data from backend api
+	async function loadCartData(token) {
+		const response = await axios.get(`${serverUrl}/api/cart/retrieve`, {
+			headers: { token },
+		});
+		setCartItems(response.data.cartData);
+	}
 
-  // adds item count on cart
-  async function addToCart(itemId) {
+	// adds item count on cart
+	async function addToCart(itemId) {
 		if (!cartItems[itemId]) {
 			setCartItems((prev) => ({ ...prev, [itemId]: 1 }));
 		} else {
 			setCartItems((prev) => ({ ...prev, [itemId]: ++prev[itemId] }));
 		}
 
-    // reflect in backend
-    if(token) {
-      await axios.post(`${serverUrl}/api/cart/add`, { itemId }, { headers: { token }});
-    }
+		// reflect in backend
+		if (token) {
+			await axios.post(
+				`${serverUrl}/api/cart/add`,
+				{ itemId },
+				{ headers: { token } }
+			);
+		}
 	}
 
 	// subtracts item count on cart
 	async function removeFromCart(itemId) {
 		setCartItems((prev) => ({ ...prev, [itemId]: --prev[itemId] }));
 
-    // reflect in backend
-    if(token) {
-      await axios.delete(`${serverUrl}/api/cart/remove`, { headers: { token }, data: { itemId } });
-    }
+		// reflect in backend
+		if (token) {
+			await axios.delete(`${serverUrl}/api/cart/remove`, {
+				headers: { token },
+				data: { itemId },
+			});
+		}
 	}
 
-  // calculates total amount in cart
-  function getTotalCartAmount() {
-    let totalAmount = 0;
+	// sync cart for new loggedIn user
+	async function loadAndSyncCart(token) {
+		await axios.post(
+			`${serverUrl}/api/cart/new`,
+			{ cartData: cartItems },
+			{ headers: { token } }
+		);
 
-    for (const idKey in cartItems) {
-      if (cartItems[idKey] > 0) {
+		await loadCartData(token);
+	}
+
+	// calculates total amount in cart
+	function getTotalCartAmount() {
+		let totalAmount = 0;
+
+		for (const idKey in cartItems) {
+			if (cartItems[idKey] > 0) {
 				let product = foodList.find((product) => product._id === idKey);
 				totalAmount += product.price * cartItems[idKey];
 			}
-    }
+		}
 
-    return totalAmount;
-  }
+		return totalAmount;
+	}
 
-	const contextValue = { foodList, cartItems, setCartItems, addToCart, removeFromCart, getTotalCartAmount, serverUrl, token, setToken };
+	const contextValue = {
+		foodList,
+		cartItems,
+		setCartItems,
+		addToCart,
+		removeFromCart,
+		getTotalCartAmount,
+		serverUrl,
+		token,
+		setToken,
+		loadCartData,
+		loadAndSyncCart,
+	};
 
-  return (
-    <StoreContext.Provider value={contextValue}>
-      {children}
-    </StoreContext.Provider>
-  )
+	return (
+		<StoreContext.Provider value={contextValue}>
+			{children}
+		</StoreContext.Provider>
+	);
 }
 
 export default StoreProvider;

@@ -1,11 +1,14 @@
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useStoreContext } from '../../context/StoreContext/StoreContext.tools';
+import { isCartIsEmpty } from '../../utils';
 import './Cart.page.css';
+import { useAuthContext } from '../../context/AuthContext/AuthContext.tools';
 
 function Cart() {
-	const { cartItems, foodList, removeFromCart, getTotalCartAmount, serverUrl } =
+	const { cartItems, foodList, removeFromCart, getTotalCartAmount, serverUrl, token } =
 		useStoreContext();
+	const { setShowLogin } = useAuthContext();
 	const navigate = useNavigate();
 
 	const cartListRef = useRef(null); // Create a ref for the container
@@ -42,26 +45,35 @@ function Cart() {
 				<br />
 				<hr />
 				<div className='cart-items-container'>
-					{foodList.map(
-						(item) =>
-							cartItems[item._id] > 0 && (
-								<div key={item._id} className='cart-item-container'>
-									<div className='cart-items-title cart-item'>
-										<img src={`${serverUrl}/images/${item.image}`} alt={`Image of ${item.name}`} />
-										<p>{item.name}</p>
-										<p>${item.price}</p>
-										<p>{cartItems[item._id]}</p>
-										<p>${item.price * cartItems[item._id]}</p>
-										<p
-											className='cross'
-											onClick={() => handleRemoveItem(item._id)}
-										>
-											x
-										</p>
+					{!isCartIsEmpty(cartItems) ? (
+						foodList.map(
+							(item) =>
+								cartItems[item._id] > 0 && (
+									<div key={item._id} className='cart-item-container'>
+										<div className='cart-items-title cart-item'>
+											<img
+												src={`${serverUrl}/images/${item.image}`}
+												alt={`Image of ${item.name}`}
+											/>
+											<p>{item.name}</p>
+											<p>${item.price}</p>
+											<p>{cartItems[item._id]}</p>
+											<p>${item.price * cartItems[item._id]}</p>
+											<p
+												className='cross'
+												onClick={() => handleRemoveItem(item._id)}
+											>
+												x
+											</p>
+										</div>
+										<hr />
 									</div>
-									<hr />
-								</div>
-							)
+								)
+						)
+					) : (
+						<div className='empty-cart'>
+							<h2>Your cart is empty. Add some items.</h2>
+						</div>
 					)}
 				</div>
 			</section>
@@ -81,15 +93,18 @@ function Cart() {
 						<hr />
 						<div className='cart-total-details'>
 							<b>Total</b>
-							<b>${getTotalCartAmount() === 0 ? 0 : getTotalCartAmount() + 2}</b>
+							<b>
+								${getTotalCartAmount() === 0 ? 0 : getTotalCartAmount() + 2}
+							</b>
 						</div>
 					</div>
-					<button
+					{token ? <button
 						onClick={() => navigate('/order')}
 						disabled={getTotalCartAmount() === 0}
 					>
 						Proceed to checkout
-					</button>
+					</button> :
+					<button onClick={() => setShowLogin(true)}>Login</button>}
 				</div>
 				<div className='cart-promo-code'>
 					<div>

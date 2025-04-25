@@ -2,10 +2,11 @@ import { useState } from 'react';
 import axios from 'axios';
 import { assets } from '../../assets/assets';
 import { useStoreContext } from '../../context/StoreContext/StoreContext.tools';
+import { useAuthContext } from '../../context/AuthContext/AuthContext.tools';
 import './LoginPopup.component.css';
 
-
-function LoginPopup({ setShowLogin }) {
+function LoginPopup() {
+	const { setShowLogin } = useAuthContext();
 	const [currState, setCurrentState] = useState('Login');
 	const [userData, setUserData] = useState({
 		name: '',
@@ -13,7 +14,13 @@ function LoginPopup({ setShowLogin }) {
 		password: '',
 	});
 
-	const { serverUrl, setToken } = useStoreContext();
+	const {
+		serverUrl,
+		setToken,
+		loadAndSyncCart,
+		loadCartData,
+		getTotalCartAmount,
+	} = useStoreContext();
 
 	function onChangeHandler(event) {
 		const name = event.target.name;
@@ -27,20 +34,34 @@ function LoginPopup({ setShowLogin }) {
 
 		let url = serverUrl;
 
-		if(currState === 'Login') {
+		if (currState === 'Login') {
 			url += '/api/user/login';
 		} else {
 			url += '/api/user/register';
 		}
 
-		const response = await axios.post(url, userData);
+		try {
+			const response = await axios.post(url, userData);
+			if (response.data.success) {
+				setToken(response.data.token);
+				localStorage.setItem('token', response.data.token);
 
-		if(response.data.success) {
-			setToken(response.data.token);
-			localStorage.setItem('token', response.data.token);
-			setShowLogin(false);
-		} else {
-			alert(response.data.message);
+				if (url.includes('register') && getTotalCartAmount() > 0) {
+					await loadAndSyncCart(response.data.token);
+				} else {
+					await loadCartData(localStorage.getItem('token'));
+				}
+
+				setShowLogin(false);
+			} else {
+				alert(response.data.message);
+			}
+		} catch (error) {
+			if (error.message.includes('409')) {
+				alert('This user already exists.');
+			} else {
+				alert(error.message);
+			}
 		}
 	}
 
@@ -83,7 +104,9 @@ function LoginPopup({ setShowLogin }) {
 						required
 					/>
 				</div>
-				<button type='submit'>{currState === 'Sign Up' ? 'Sign Up' : 'Login'}</button>
+				<button type='submit'>
+					{currState === 'Sign Up' ? 'Sign Up' : 'Login'}
+				</button>
 				<div className='login-popup-condition'>
 					<input type='checkbox' required />
 					<p>By continuing, I agree to the terms of use and privacy policy</p>

@@ -4,12 +4,13 @@ import { useStoreContext } from '../../context/StoreContext/StoreContext.tools';
 import './Navbar.component.css';
 
 function Navbar({ setShowLogin, selected, setSelected }) {
-	const { getTotalCartAmount, token, setToken } = useStoreContext();
+	const { getTotalCartAmount, token, setToken, setCartItems } = useStoreContext();
 	const navigate = useNavigate();
 
 	function onLogOutHandler() {
 		localStorage.removeItem('token');
 		setToken('');
+		setCartItems({});
 		navigate('/');
 		window.scrollTo(0, 0);
 	}

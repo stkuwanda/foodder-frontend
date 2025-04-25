@@ -7,6 +7,18 @@
   height: 200px;
 }
 
+.cart-items-container  .empty-cart  {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.cart-items-container .empty-cart h2 {
+  text-align: center;
+  color: #454545;
+}
+
 .cart-items-title {
   display: grid;
   grid-template-columns: 1fr 1.5fr 1fr 1fr 1fr 0.5fr;

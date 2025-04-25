@@ -10,17 +10,16 @@ import NotFound from './pages/NotFound/NotFound.page';
 import PaymentVerification from './pages/PaymentVerification/PaymentVerification.page';
 import './App.css';
 import MyOrders from './pages/MyOrders/MyOrders.page';
-
-
+import { useAuthContext } from './context/AuthContext/AuthContext.tools';
 
 function App() {
-	const [showLogin, setShowLogin] = useState(false);
+	const { showLogin, setShowLogin } = useAuthContext();
 	const [selected, setSelected] = useState('home');
 	const location = useLocation();
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
-		
+
 		// Scroll to the element with the ID from the fragment identifier
 		if (location.hash) {
 			const element = document.querySelector(location.hash);
@@ -45,7 +44,7 @@ function App() {
 					<Route path='/order' element={<PlaceOrder />} />
 					<Route path='/verify' element={<PaymentVerification />} />
 					<Route path='/myorders' element={<MyOrders />} />
-					<Route path='*' element={<NotFound />}/>
+					<Route path='*' element={<NotFound />} />
 				</Routes>
 			</div>
 			<Footer />
